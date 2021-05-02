@@ -1,3 +1,5 @@
+import './../lib/routes';
+
 // this will configure the sign up field so it
 // they only need a username
 Accounts.ui.config({

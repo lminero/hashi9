@@ -1,3 +1,5 @@
+import './../lib/routes';
+
 // the messages publicaction now takes a parameter
 // so we can limit the set of messages
 // that get sent to the client in one go.
