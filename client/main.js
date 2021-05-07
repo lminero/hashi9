@@ -5,6 +5,10 @@ import { Session } from 'meteor/session'
 
 // subscribe to read data
 Meteor.subscribe("exercises");
+<<<<<<< HEAD
+=======
+Meteor.subscribe("experiences");
+>>>>>>> 4283dbd4575d8db88c559de488fbc168c6fe7d43
 
 Session.setDefault("selected", false);
 
@@ -14,13 +18,35 @@ Accounts.ui.config({
   passwordSignupFields: 'USERNAME_ONLY',
 });
 
+<<<<<<< HEAD
 let mpSong = 'Beattles.mp3';
+=======
+// let mpSong = 'Beattles.mp3';
+>>>>>>> 4283dbd4575d8db88c559de488fbc168c6fe7d43
 
-Template.chatroomList.events({
-    'click .js-toggle-chatform':function(){
-        $('#chatroomForm').toggle();
+
+//// ***** Helpers ******
+
+Template.shareExperienceForm.helpers({
+    "topicOptions": () => {
+        allExercises = Exercises.find();
+        exercisesName = [];
+        for (i=0; i<allExercises.length; i++) {
+            exercisesName.push( { label: `${allExercises[0].name}`, value: `${allExercises[0].name}` })
+        }
+        console.log(exercisesName);
+        return exercisesName;
+    },
+    "ratingOptions": () => {
+        return [
+            {label: '1', value: 1 },
+            {label: '2', value: 2 },
+            {label: '3', value: 3 },
+            {label: '4', value: 4 },
+            {label: '5', value: 5 }
+        ];
     }
-});
+})
 
 Template.insertExercisesForm.helpers({
     "yearOptions":() => {
@@ -49,6 +75,36 @@ Template.insertExercisesForm.helpers({
     },
 });
 
+<<<<<<< HEAD
+Template.insertExercisesForm.helpers({
+    "yearOptions":() => {
+        return [
+            {label: '2021', value: '2021' },
+            {label: '2022', value: '2022' },
+            {label: '2023', value: '2023' },
+            {label: '2024', value: '2024' },
+        ];
+    },
+    "monthOptions":() => {
+        return [
+            {label: 'January', value: 'January' },
+            {label: 'February', value: 'February' },
+            {label: 'March', value: 'March' },
+            {label: 'April', value: 'April' },
+            {label: 'May', value: 'May' },
+            {label: 'June', value: 'June' },
+            {label: 'July', value: 'July' },
+            {label: 'August', value: 'August' },
+            {label: 'September', value: 'September' },
+            {label: 'October', value: 'October' },
+            {label: 'November', value: 'November' },
+            {label: 'December', value: 'December' },
+        ];
+    },
+});
+
+=======
+>>>>>>> 4283dbd4575d8db88c559de488fbc168c6fe7d43
 Template.showExercises.helpers({
     // find all visible docs
     exercises:function(){
@@ -79,16 +135,6 @@ Template.chatroomList.helpers({
     }
 });
 
-Template.messageList.events({
-    'click .js-del-message':function(){
-        Meteor.call('removeMessage', this._id, function(err, res){
-            if (!res){
-                alert('Can only delete your own ones...');
-            }
-        });
-    }
-});
-
 Template.header.helpers({
     nickname:function(){
         if (Meteor.user()){
@@ -105,6 +151,27 @@ Template.messageList.helpers({
     }
 });
 
+<<<<<<< HEAD
+=======
+//// ***** Events ********
+
+Template.chatroomList.events({
+    'click .js-toggle-chatform':function(){
+        $('#chatroomForm').toggle();
+    }
+});
+
+Template.messageList.events({
+    'click .js-del-message':function(){
+        Meteor.call('removeMessage', this._id, function(err, res){
+            if (!res){
+                alert('Can only delete your own ones...');
+            }
+        });
+    }
+});
+
+>>>>>>> 4283dbd4575d8db88c559de488fbc168c6fe7d43
 Template.showExercises.events({
     'click .js-selectedTech':(event) => {
         event.preventDefault();
@@ -116,6 +183,7 @@ Template.showExercises.events({
     }
 });
 
+<<<<<<< HEAD
 // Template.playing.events({
 //     'click .play':function(){
 //         console.log('button was clicked');
@@ -123,6 +191,8 @@ Template.showExercises.events({
 //     }
 // })
 
+=======
+>>>>>>> 4283dbd4575d8db88c559de488fbc168c6fe7d43
 Template.playing.onRendered( () => {
     const instance = this;
     const parent = instance.find('#player');
