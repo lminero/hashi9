@@ -22,13 +22,27 @@ Accounts.ui.config({
 
 Template.shareExperienceForm.helpers({
     "topicOptions": () => {
+        let allExercises = {};
         allExercises = Exercises.find();
-        exercisesName = [];
-        for (i=0; i<allExercises.length; i++) {
-            exercisesName.push( { label: `${allExercises[0].name}`, value: `${allExercises[0].name}` })
-        }
+        console.log(allExercises);
+        let allExercises1 = {};
+        allExercises1 = allExercises.collection._docs._map;
+        console.log(allExercises1);
+        // let length = Object.keys(allExercises1).length;
+        // console.log(length);
+        let exercisesName = [];
+        allExercises1.forEach((el) => {
+            console.log(el.name);
+            // exercisesName.push( { label: `${el.name}`, value: `${el.name}` });
+        });
+        // allExercises1.forEach(el => {
+        //     exercisesName.push( { label: `${allExercises[i].name}`, value: `${allExercises[i].name}` });
+        // });
         console.log(exercisesName);
-        return exercisesName;
+        return [
+            {label: '1', value: '1' },
+            {label: '2', value: '2' }
+        ];
     },
     "ratingOptions": () => {
         return [
