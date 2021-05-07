@@ -1,4 +1,4 @@
-import './../lib/routes';
+// require('./../lib/routes');
 
 // the messages publicaction now takes a parameter
 // so we can limit the set of messages
