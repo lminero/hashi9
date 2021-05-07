@@ -1,6 +1,62 @@
 <template name="exercises">
-    <h1>Exercises Area</h1>
-    <p>
-        List of exercises.
-    </p>
+    <h1>Exercises:</h1>
+    <div class="container">
+        <div class="row" width="100%">
+            <div style="border: 1px solid lightblue; padding: 1.5%; display: inline-block; width: 60%; vertical-align: top;">
+                {{> showExercises }}
+            </div>
+            <div style="padding-left: 1%; display: inline-block; width: 35%; vertical-align: top; margin-left: 1%;">
+                <h3 style="text-align: center">Selected Exercise:</h3>
+                    {{> playExercise }}
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="showExercises">
+    {{#each exercises}}
+        <h4 class="js-selectedTech" ><a href="{{_id}}">{{name}}</a></h4>
+        <p style="margin-bottom: 4%;"><b>Description: </b>{{description}}<br>
+        - {{month}} {{year}} technique</p>
+    {{/each}}
+</template>
+
+<template name="playExercise">
+    {{#if selectedExerciseExists}}
+        <div>
+            {{> playing}}
+        </div>
+    {{else}}
+        <h4>Select from the left a technique to stream...</h4>
+    {{/if}}
+</template>
+
+<template name="playing">
+    <h3>{{play.name}}</h3>
+    <p><b>Description: </b>{{play.description}}<br>
+    - {{play.month}}, {{play.year}} technique<br></p>
+    <!-- <button class="btn btn-success">
+        <a href="../assets/Beattles.mp3" download="file.mp3">
+            Play
+        </a>
+    </button> -->
+    <div id="player">
+        <!-- <audio id='linkAudio' crossorigin="anonymous" src="../shared/Beattles.mp3" type="audio/mp3" controls > -->
+            <!-- <source src="../assets/Beattles.wav" type="audio/wav"  />
+            <source src="../assets/Beattles.mp3" type="audio/mp3"  />
+        </audio>
+        <button class="btn btn-success"><div class="play"><a href="#" >Play</a></div></button> -->
+    <!-- </audio> -->
+    </div>
+    <!-- <script>
+        document.getElementById("linkAudio").addEventListener("click", function () {
+          document.getElementById("linkAudio").play();
+        });
+    </script> -->
+      <!-- <audio id="player" src="../assets/Beattles.mp3" type="audio/mp3"></audio>
+      <div>
+          <a href="#" onclick="document.getElementById('player').play()">Play</a>
+      </div> -->
+    
+      
 </template>
