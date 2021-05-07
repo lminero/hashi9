@@ -1,4 +1,13 @@
 import './../lib/routes';
+import { Session } from 'meteor/session'
+
+// code that is only sent to the client
+
+// subscribe to read data
+Meteor.subscribe("exercises");
+Meteor.subscribe("experiences");
+
+Session.setDefault("selected", false);
 
 // this will configure the sign up field so it
 // they only need a username
@@ -6,17 +15,110 @@ Accounts.ui.config({
   passwordSignupFields: 'USERNAME_ONLY',
 });
 
+// let mpSong = 'Beattles.mp3';
 
-Template.chatroomList.events({
-    'click .js-toggle-chatform':function(){
-        $('#chatroomForm').toggle();
+
+//// ***** Helpers ******
+
+Template.shareExperienceForm.helpers({
+    "topicOptions": () => {
+        allExercises = Exercises.find();
+        exercisesName = [];
+        for (i=0; i<allExercises.length; i++) {
+            exercisesName.push( { label: `${allExercises[0].name}`, value: `${allExercises[0].name}` })
+        }
+        console.log(exercisesName);
+        return exercisesName;
+    },
+    "ratingOptions": () => {
+        return [
+            {label: '1', value: 1 },
+            {label: '2', value: 2 },
+            {label: '3', value: 3 },
+            {label: '4', value: 4 },
+            {label: '5', value: 5 }
+        ];
     }
+})
+
+Template.insertExercisesForm.helpers({
+    "yearOptions":() => {
+        return [
+            {label: '2021', value: '2021' },
+            {label: '2022', value: '2022' },
+            {label: '2023', value: '2023' },
+            {label: '2024', value: '2024' },
+        ];
+    },
+    "monthOptions":() => {
+        return [
+            {label: 'January', value: 'January' },
+            {label: 'February', value: 'February' },
+            {label: 'March', value: 'March' },
+            {label: 'April', value: 'April' },
+            {label: 'May', value: 'May' },
+            {label: 'June', value: 'June' },
+            {label: 'July', value: 'July' },
+            {label: 'August', value: 'August' },
+            {label: 'September', value: 'September' },
+            {label: 'October', value: 'October' },
+            {label: 'November', value: 'November' },
+            {label: 'December', value: 'December' },
+        ];
+    },
 });
+
+Template.showExercises.helpers({
+    // find all visible docs
+    exercises:function(){
+      return Exercises.find();
+    }
+  });
+
+  Template.playExercise.helpers({
+    selectedExerciseExists:function(){
+        let select = Session.equals("selected", true);
+        return select ? true : false;
+    },    
+  });
+
+  Template.playing.helpers({
+    play:function(){
+        let ec = Session.get("target");
+        ec.play = new Audio('../shared/audio.wav');
+        // console.log(ec);
+        return ec;
+    },
+  })
 
 Template.chatroomList.helpers({
     chatrooms:function(){
         Meteor.subscribe("chatrooms");
         return Chatrooms.find();
+    }
+});
+
+Template.header.helpers({
+    nickname:function(){
+        if (Meteor.user()){
+            return Meteor.user().username;
+        }
+    },
+});
+
+Template.messageList.helpers({
+    messages:(chatroomId) => {
+        if (Meteor.user() && chatroomId){
+            return Messages.find({chatroomId:chatroomId}, {sort: {createdOn: -1}});
+        }
+    }
+});
+
+//// ***** Events ********
+
+Template.chatroomList.events({
+    'click .js-toggle-chatform':function(){
+        $('#chatroomForm').toggle();
     }
 });
 
@@ -30,18 +132,35 @@ Template.messageList.events({
     }
 });
 
-Template.header.helpers({
-    nickname:function(){
-        if (Meteor.user()){
-            return Meteor.user().username;
-        }
-    },
-});
-
-Template.messageList.helpers({
-    messages:function(chatroomId){
-        if (Meteor.user() && chatroomId){
-            return Messages.find({chatroomId:chatroomId}, {sort: {createdOn: -1}});
-        }
+Template.showExercises.events({
+    'click .js-selectedTech':(event) => {
+        event.preventDefault();
+        console.log(event.target.pathname.slice(1));
+        Session.set("selected", true);        
+        let exerciseChosen = Exercises.findOne({_id: event.target.pathname.slice(1)});
+        console.log(exerciseChosen);
+        Session.set("target", exerciseChosen);
     }
 });
+
+Template.playing.onRendered( () => {
+    const instance = this;
+    const parent = instance.find('#player');
+    instance.audio = document.createElement('audio');
+    console.dir('here' + instance.audio);
+    instance.audio.setAttribute('id', 'audioID');
+    instance.audio.setAttribute('type', 'audio/mp3');
+    instance.audio.setAttribute('crossorigin', 'same-origin');
+    instance.audio.setAttribute('Content-type', 'audio/mp3');
+    instance.audio.src = `../shared/${mpSong}`;
+    parent.append(instance.audio);
+    instance.audio.addEventListener('audioID', () => {
+      instance.audio.controls = true;
+      instance.audio.playsinline = true;
+      instance.audio.muted = false;
+      instance.audio.loop = false;
+      instance.audio.autoplay = true;
+      instance.audio.play();
+    })
+    instance.audio.load();
+  })

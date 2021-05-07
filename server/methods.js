@@ -1,5 +1,24 @@
 Meteor.methods({
-    'insertMessage':function(message){
+    addExercises:function(exercise){
+        console.log('Here in Methods');
+        if (exercise) {
+            console.log("method ran!" + exercise);
+            return Exercises.insert(exercise);
+        } else {
+            console.log("NO method ran!");
+            return;
+        };
+    },
+    addExperience:function(exp){
+        if (exp) {
+            console.log('Exp: \n' + exp);
+            return Experience.insert(exp);
+        } else {
+            console.log("NO method ran!");
+            return;
+        };
+    },
+/*     'insertMessage':function(message){
         if (!Meteor.user()){
             return;
         }
@@ -19,10 +38,7 @@ Meteor.methods({
             chatroom.createdBy = Meteor.user().username;
             return Chatrooms.insert(chatroom);
         }
-    }
-})
-
-Meteor.methods({
+    },
     'removeMessage':function(id){
         if (!Meteor.user()){
             return;
@@ -34,5 +50,13 @@ Meteor.methods({
                     return true;
             }
         }
-    }
-})
+    }, */
+});
+
+Meteor.publish("exercises", function(){
+    return Exercises.find();
+});
+
+Meteor.publish("experiences", function(){
+    return Experiences.find();
+});

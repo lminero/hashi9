@@ -1,6 +1,27 @@
 <template name="admin">
     <h1>Admin</h1>
-    <p>
-        Load exercises
-    </p>
-    </template>
+
+    {{> insertExercisesForm }}
+</template>
+
+<!-- <template name="insertExercisesForm">
+    {{> quickForm collection="Exercises" doc=this id="insertExercisesForm" type="method" meteormethod="addExercises"}}
+  </template> -->
+
+<template name="insertExercisesForm">
+    {{#autoForm collection="Exercises" id="insertExercisesForm" type="method" meteormethod="addExercises"}}
+        <fieldset>
+        <legend>Load Exercises</legend>
+            {{> afQuickField name='name' }}
+            {{> afQuickField name='description' value="Description here" rows=3}}
+            {{> afQuickField name='file'}}
+
+            <p class="col-md-3"><b>Promotion Month and Year:</b></p>
+            {{> afQuickField name='month' type="select" options=monthOptions firstOption="Select Month" template="bootstrap3-horizontal" label-class="col-md-1" input-col-class="col-md-3" }}
+            {{> afQuickField name='year' type="select" options=yearOptions firstOption="Select Year" template="bootstrap3-horizontal"  label-class="col-md-1" input-col-class="col-md-3" }}            
+            
+
+        </fieldset>
+        <button type="submit" class="btn btn-primary">Insert</button>
+    {{/autoForm}}
+</template>
