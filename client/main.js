@@ -9,6 +9,7 @@ Meteor.subscribe("exercises");
 Meteor.subscribe("experiences");
 
 Session.setDefault("selected", false);
+Session.setDefault("category", "All experiences");
 
 // this will configure the sign up field so it
 // they only need a username
@@ -23,6 +24,12 @@ Accounts.ui.config({
 
 Template.shareExperienceForm.helpers({
     "topicOptions": () => {
+        let options = topicNames();
+        options.sort((a,b) => {
+            let nameA = a.label.toUpperCase();
+            let nameB = b.label.toUpperCase();
+            return nameA - nameB;
+        });
         return topicNames;
     },
     "ratingOptions": () => {
@@ -100,7 +107,14 @@ Template.shareExperienceForm.helpers({
 Template.showExperiences.helpers({
     // find all visible docs
     experiences:function(){
-      return Experiences.find();
+        let filter = Session.get("category");
+        if (filter == "All experiences") {
+            return Experiences.find({}, {sort:{date: -1}});
+        } else {
+            let x = Experiences.find({topic: filter}, {sort:{date: -1}});
+            console.log(x);
+            return x;
+        }
     }
   });
 
@@ -124,6 +138,32 @@ Template.messageList.helpers({
         if (Meteor.user() && chatroomId){
             return Messages.find({chatroomId:chatroomId}, {sort: {createdOn: -1}});
         }
+    }
+});
+
+Template.selectFilter.helpers({
+    categoryFilter: function(){
+        let options = {};
+        options = topicNames();
+        console.log(options);
+        let optionsName = new Array;
+        for (var obj in options) {
+            console.log(options[obj].label);
+            optionsName.push(`${options[obj].label}`);
+        };
+        optionsName.push('All experiences');
+        optionsName.sort();
+        console.log(optionsName);
+        return optionsName;
+    }
+});
+
+Template.selectFilter.events({
+    "change #categories": function (event) {
+        var category = event.target.value;
+        console.log("category: " + category);
+        Session.set("category", category);
+        // additional code to do what you want with the category
     }
 });
 
@@ -186,11 +226,9 @@ Template.playing.onRendered( () => {
     allExercises1 = allExercises.collection._docs._map;
     console.log(allExercises1);
     let exercisesName = new Array;
-    let i = 0;
     for (var id in allExercises1) {
         console.log(allExercises1[id].name);
         exercisesName.push( { label: `${allExercises1[id].name}`, value: `${allExercises1[id].name}` } );
-        i++;
     };
     console.log(exercisesName);
     return exercisesName;

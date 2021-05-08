@@ -7,23 +7,23 @@
                 <h3><a href="/experiences">Share</a> your own experience</h3>
             </td>
         </tr>
+        <tr>
+            <td>{{> selectFilter}}</td>
+            <td></td>
+        </tr>
     </table>
+    
     <p>
         {{> showExperiences}}
     </p>
 </template>
 
 <template name="selectFilter">
-    {{#each list}}
-        {{>dropdownTemplate selectedValue=selectedValue otherValues=otherValues index=@index}}
-    {{/each}}
-</template>
-<template name="dropdownTemplate">
-    <select class="chosen-select">
-        <option value="{{selectedValue}}">{{selectedValue}}</option>
-       {{#each otherValues}}
-            <option value="{{this}}"> {{this}} </option>  
-       {{/each}}
+    <select id="categories" style="width: 40%; margin-left: 4.0%;">
+        <option disabled="disabled" selected="selected"  >Please Select</option> 
+        {{#each categoryFilter}}
+            <option value="{{this}}">{{this}}</option>
+        {{/each}}
     </select>
 </template>
 
