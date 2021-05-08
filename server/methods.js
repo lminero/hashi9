@@ -14,7 +14,7 @@ Meteor.methods({
     addExperiences:function(experience){
         console.log('Here in Methods');
         if (experience) {
-            experience.name = "Luis";
+            experience.name = Meteor.user().username;
             experience.date = new Date();
             console.log('Exp: \n' + experience);
             return Experiences.insert(experience);

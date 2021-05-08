@@ -98,7 +98,25 @@ Template.showExercises.helpers({
         // console.log(ec);
         return ec;
     },
-  })
+  });
+
+Template.shareExperienceForm.helpers({
+    signedUser:function(){
+        if (Meteor.user()){
+            return true;
+        } else {
+            alert('Sign in to share an experience');
+            return false;
+        };
+    },
+});
+
+Template.showExperiences.helpers({
+    // find all visible docs
+    experiences:function(){
+      return Experiences.find();
+    }
+  });
 
 Template.chatroomList.helpers({
     chatrooms:function(){
