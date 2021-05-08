@@ -2,7 +2,7 @@
     <h1>Experiences</h1>
     <table width="100%" style="margin-bottom: 3%;">
         <tr>
-            <td style="text-align: right; padding-right: 15%;"><h3>Read here what other's experienced</h3></td> 
+            <td style="text-align: right; padding-right: 15%;"><h3>Read below what other's experienced</h3></td> 
             <td style="text-align: left; padding-left: 10%;">
                 <h3><a href="/experiences">Share</a> your own experience</h3>
             </td>
@@ -13,11 +13,25 @@
     </p>
 </template>
 
+<template name="selectFilter">
+    {{#each list}}
+        {{>dropdownTemplate selectedValue=selectedValue otherValues=otherValues index=@index}}
+    {{/each}}
+</template>
+<template name="dropdownTemplate">
+    <select class="chosen-select">
+        <option value="{{selectedValue}}">{{selectedValue}}</option>
+       {{#each otherValues}}
+            <option value="{{this}}"> {{this}} </option>  
+       {{/each}}
+    </select>
+</template>
+
 <template name="showExperiences">
 
     <ul>
         {{#each experiences}}
-        <li>
+        <li style="margin-bottom: 1.5%;">
             <b>Technique:</b> {{topic}}, <b>rating:</b> {{rating}} stars<br>
             {{description}}<br>
             - {{name}}, {{date}}

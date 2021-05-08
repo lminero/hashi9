@@ -23,21 +23,7 @@ Accounts.ui.config({
 
 Template.shareExperienceForm.helpers({
     "topicOptions": () => {
-        let allExercises = {};
-        allExercises = Exercises.find();
-        console.log(allExercises);
-        let allExercises1 = {};
-        allExercises1 = allExercises.collection._docs._map;
-        console.log(allExercises1);
-        let exercisesName = new Array;
-        let i = 0;
-        for (var id in allExercises1) {
-            console.log(allExercises1[id].name);
-            exercisesName.push( { label: `${allExercises1[id].name}`, value: `${allExercises1[id].name}` } );
-            i++;
-        };
-        console.log(exercisesName);
-        return exercisesName;
+        return topicNames;
     },
     "ratingOptions": () => {
         return [
@@ -48,7 +34,7 @@ Template.shareExperienceForm.helpers({
             {label: '5', value: 5 }
         ];
     }
-})
+});
 
 Template.insertExercisesForm.helpers({
     "yearOptions":() => {
@@ -190,4 +176,22 @@ Template.playing.onRendered( () => {
       instance.audio.play();
     })
     instance.audio.load();
-  })
+  });
+
+  topicNames = () => {
+    let allExercises = {};
+    allExercises = Exercises.find();
+    console.log(allExercises);
+    let allExercises1 = {};
+    allExercises1 = allExercises.collection._docs._map;
+    console.log(allExercises1);
+    let exercisesName = new Array;
+    let i = 0;
+    for (var id in allExercises1) {
+        console.log(allExercises1[id].name);
+        exercisesName.push( { label: `${allExercises1[id].name}`, value: `${allExercises1[id].name}` } );
+        i++;
+    };
+    console.log(exercisesName);
+    return exercisesName;
+  }
