@@ -1,14 +1,12 @@
 import './../lib/routes';
-import { Session } from 'meteor/session'
+import '../lib/collections';
+import { Session } from 'meteor/session';
 
 // code that is only sent to the client
 
 // subscribe to read data
 Meteor.subscribe("exercises");
-<<<<<<< HEAD
-=======
 Meteor.subscribe("experiences");
->>>>>>> 4283dbd4575d8db88c559de488fbc168c6fe7d43
 
 Session.setDefault("selected", false);
 
@@ -18,11 +16,7 @@ Accounts.ui.config({
   passwordSignupFields: 'USERNAME_ONLY',
 });
 
-<<<<<<< HEAD
-let mpSong = 'Beattles.mp3';
-=======
 // let mpSong = 'Beattles.mp3';
->>>>>>> 4283dbd4575d8db88c559de488fbc168c6fe7d43
 
 
 //// ***** Helpers ******
@@ -35,21 +29,15 @@ Template.shareExperienceForm.helpers({
         let allExercises1 = {};
         allExercises1 = allExercises.collection._docs._map;
         console.log(allExercises1);
-        // let length = Object.keys(allExercises1).length;
-        // console.log(length);
-        let exercisesName = [];
-        allExercises1.forEach((el) => {
-            console.log(el.name);
-            // exercisesName.push( { label: `${el.name}`, value: `${el.name}` });
-        });
-        // allExercises1.forEach(el => {
-        //     exercisesName.push( { label: `${allExercises[i].name}`, value: `${allExercises[i].name}` });
-        // });
+        let exercisesName = new Array;
+        let i = 0;
+        for (var id in allExercises1) {
+            console.log(allExercises1[id].name);
+            exercisesName.push( { label: `${allExercises1[id].name}`, value: `${allExercises1[id].name}` } );
+            i++;
+        };
         console.log(exercisesName);
-        return [
-            {label: '1', value: '1' },
-            {label: '2', value: '2' }
-        ];
+        return exercisesName;
     },
     "ratingOptions": () => {
         return [
@@ -89,36 +77,6 @@ Template.insertExercisesForm.helpers({
     },
 });
 
-<<<<<<< HEAD
-Template.insertExercisesForm.helpers({
-    "yearOptions":() => {
-        return [
-            {label: '2021', value: '2021' },
-            {label: '2022', value: '2022' },
-            {label: '2023', value: '2023' },
-            {label: '2024', value: '2024' },
-        ];
-    },
-    "monthOptions":() => {
-        return [
-            {label: 'January', value: 'January' },
-            {label: 'February', value: 'February' },
-            {label: 'March', value: 'March' },
-            {label: 'April', value: 'April' },
-            {label: 'May', value: 'May' },
-            {label: 'June', value: 'June' },
-            {label: 'July', value: 'July' },
-            {label: 'August', value: 'August' },
-            {label: 'September', value: 'September' },
-            {label: 'October', value: 'October' },
-            {label: 'November', value: 'November' },
-            {label: 'December', value: 'December' },
-        ];
-    },
-});
-
-=======
->>>>>>> 4283dbd4575d8db88c559de488fbc168c6fe7d43
 Template.showExercises.helpers({
     // find all visible docs
     exercises:function(){
@@ -165,8 +123,6 @@ Template.messageList.helpers({
     }
 });
 
-<<<<<<< HEAD
-=======
 //// ***** Events ********
 
 Template.chatroomList.events({
@@ -185,7 +141,6 @@ Template.messageList.events({
     }
 });
 
->>>>>>> 4283dbd4575d8db88c559de488fbc168c6fe7d43
 Template.showExercises.events({
     'click .js-selectedTech':(event) => {
         event.preventDefault();
@@ -197,16 +152,6 @@ Template.showExercises.events({
     }
 });
 
-<<<<<<< HEAD
-// Template.playing.events({
-//     'click .play':function(){
-//         console.log('button was clicked');
-//         document.getElementById('linkAudio').play();
-//     }
-// })
-
-=======
->>>>>>> 4283dbd4575d8db88c559de488fbc168c6fe7d43
 Template.playing.onRendered( () => {
     const instance = this;
     const parent = instance.find('#player');

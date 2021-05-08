@@ -1,3 +1,5 @@
+import { Meteor } from 'meteor/meteor';
+
 Meteor.methods({
     addExercises:function(exercise){
         console.log('Here in Methods');
@@ -9,18 +11,18 @@ Meteor.methods({
             return;
         };
     },
-<<<<<<< HEAD:server/methods.js
-=======
-    addExperience:function(exp){
-        if (exp) {
-            console.log('Exp: \n' + exp);
-            return Experience.insert(exp);
+    addExperiences:function(experience){
+        console.log('Here in Methods');
+        if (experience) {
+            experience.name = "Luis";
+            experience.date = new Date();
+            console.log('Exp: \n' + experience);
+            return Experiences.insert(experience);
         } else {
             console.log("NO method ran!");
             return;
         };
     },
->>>>>>> 4283dbd4575d8db88c559de488fbc168c6fe7d43:methods.js
 /*     'insertMessage':function(message){
         if (!Meteor.user()){
             return;
@@ -58,12 +60,8 @@ Meteor.methods({
 
 Meteor.publish("exercises", function(){
     return Exercises.find();
-<<<<<<< HEAD:server/methods.js
-  })
-=======
 });
 
 Meteor.publish("experiences", function(){
     return Experiences.find();
 });
->>>>>>> 4283dbd4575d8db88c559de488fbc168c6fe7d43:methods.js
